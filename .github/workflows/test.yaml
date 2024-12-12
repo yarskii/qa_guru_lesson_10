@@ -1,9 +1,26 @@
 name: Test
 
+env:
+  PRIMARY_PYTHON_VERSION: '3.12'
+  PRIMARY_PLATFORM: 'ubuntu-latest'
+  PYTEST_CMD: >-
+    python -m pytest 
+    --junitxml=pytest.xml 
+    --cov-report=term-missing:skip-covered 
+    --cov=src
+    tests/
+
 on:
   push:
-    branches:
-      - "main"
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+
 jobs:
   test:
     name: Test
@@ -20,3 +37,29 @@ jobs:
       - name: Run tests
         run: |
           pytest --alluredir=allure-results
+
+      - name: Load Allure test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages-dir
+
+      - name: Generate Allure test report
+        uses: andgineer/allure-report@v3.4
+        id: allure-report
+        if: always()
+        with:
+          allure-results: allure-results
+          website: gh-pages-dir
+          reports-site-path: builds/tests
+
+      - name: Publish Allure test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ${{ steps.allure-report.outputs.reports-site }}
+          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
