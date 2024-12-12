@@ -32,10 +32,10 @@ jobs:
 
       - name: Generate Allure test report
         uses: andgineer/allure-report@v3.4
-        id: tests/allure-report
+        id: allure-report
         if: always()
         with:
-          allure-results: ../allure-results
+          allure-results: ./tests/allure-results
           website: gh-pages-dir
           reports-site-path: builds/tests
 
