@@ -22,7 +22,6 @@ permissions:
 
 
 jobs:
-
   matrix-build:
     strategy:
       matrix:
@@ -39,7 +38,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install uv environment
-        uses: python -m venv venv
+        run: |
+          python -m venv venv
       - name: Install dependencies
         run: |
           python -m venv venv
