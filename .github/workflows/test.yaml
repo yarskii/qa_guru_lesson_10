@@ -1,83 +1,25 @@
 name: Test
 
-env:
-  PRIMARY_PYTHON_VERSION: '3.х'
-  PRIMARY_PLATFORM: 'windows-latest'
-  PYTEST_CMD: >-
-    python -m pytest 
-    --junitxml=pytest.xml 
-    --cov-report=term-missing:skip-covered 
-    --cov=src
-    tests/
-
 on:
   push:
-    branches: [ master, main ]
-  pull_request:
-    branches: [ master, main ]
-
-permissions:
-  pull-requests: write
-  contents: write
-
-
+    branches:
+      - "master"
 jobs:
-  matrix-build:
-    strategy:
-      matrix:
-        python-version: [ "3.x"]
-        platform: [windows-latest]
-    runs-on: ${{ matrix.platform }}
-
+  test:
+    name: Test
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.x
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install uv environment
-        run: |
-          python -m venv venv
+          python-version: '3.x'
       - name: Install dependencies
         run: |
-          python -m venv venv
-          .\venv\Scripts\activate
           pip install -r requirements.txt
-      - name: Run tests
+      - name: Install dependencies
         run: |
-          .\venv\Scripts\activate
-          pytest --alluredir=allure-results
-
-      - name: Test with pytest
-        run: |
-          .\venv\Scripts\activate
-          ${{ env.PYTEST_CMD }}
-
-#  test:
-#    name: Test
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Set up Python 3.x
-#        uses: actions/setup-python@v2
-#        with:
-#          python-version: '3.x'
-#      - name: Install dependencies
-#        run: |
-#          pip install -r requirements.txt
-#      - name: Run tests
-#        run: |
-#          pytest --alluredir=allure-results
-
-      - name: Get Allure history
-        uses: actions/checkout@v2
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
+          pytest --alluredir=../allure-results
 
       - name: Load Allure test report history
         uses: actions/checkout@v4
@@ -87,6 +29,15 @@ jobs:
           ref: gh-pages
           path: gh-pages-dir
 
+      - name: Generate Allure test report
+        uses: andgineer/allure-report@v3.4
+        id: allure-report
+        if: always()
+        with:
+          allure-results: allure-results
+          website: gh-pages-dir
+          reports-site-path: builds/tests
+
       - name: Publish Allure test report
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ always() && (steps.allure-report.outcome == 'success') }}
@@ -95,3 +46,100 @@ jobs:
           publish_branch: gh-pages
           publish_dir: ${{ steps.allure-report.outputs.reports-site }}
           destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
+#name: Test
+#
+#env:
+#  PRIMARY_PYTHON_VERSION: '3.х'
+#  PRIMARY_PLATFORM: 'windows-latest'
+#  PYTEST_CMD: >-
+#    python -m pytest
+#    --junitxml=pytest.xml
+#    --cov-report=term-missing:skip-covered
+#    --cov=src
+#    tests/
+#
+#on:
+#  push:
+#    branches: [ master, main ]
+#  pull_request:
+#    branches: [ master, main ]
+#
+#permissions:
+#  pull-requests: write
+#  contents: write
+#
+#
+#jobs:
+#  matrix-build:
+#    strategy:
+#      matrix:
+#        python-version: [ "3.x"]
+#        platform: [windows-latest]
+#    runs-on: ${{ matrix.platform }}
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Set up Python ${{ matrix.python-version }}
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#
+#      - name: Install uv environment
+#        run: |
+#          python -m venv venv
+#      - name: Install dependencies
+#        run: |
+#          python -m venv venv
+#          .\venv\Scripts\activate
+#          pip install -r requirements.txt
+#      - name: Run tests
+#        run: |
+#          .\venv\Scripts\activate
+#          pytest --alluredir=allure-results
+#
+#      - name: Test with pytest
+#        run: |
+#          .\venv\Scripts\activate
+#          ${{ env.PYTEST_CMD }}
+#
+##  test:
+##    name: Test
+##    runs-on: windows-latest
+##    steps:
+##      - uses: actions/checkout@v2
+##      - name: Set up Python 3.x
+##        uses: actions/setup-python@v2
+##        with:
+##          python-version: '3.x'
+##      - name: Install dependencies
+##        run: |
+##          pip install -r requirements.txt
+##      - name: Run tests
+##        run: |
+##          pytest --alluredir=allure-results
+#
+#      - name: Get Allure history
+#        uses: actions/checkout@v2
+#        if: always()
+#        continue-on-error: true
+#        with:
+#          ref: gh-pages
+#          path: gh-pages
+#
+#      - name: Load Allure test report history
+#        uses: actions/checkout@v4
+#        if: always()
+#        continue-on-error: true
+#        with:
+#          ref: gh-pages
+#          path: gh-pages-dir
+#
+#      - name: Publish Allure test report
+#        uses: peaceiris/actions-gh-pages@v3
+#        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_branch: gh-pages
+#          publish_dir: ${{ steps.allure-report.outputs.reports-site }}
+#          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
