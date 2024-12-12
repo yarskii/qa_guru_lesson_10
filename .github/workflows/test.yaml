@@ -32,7 +32,7 @@ jobs:
 
       - name: Generate Allure test report
         uses: andgineer/allure-report@v3.4
-        id: allure-report
+        id: tests/allure-report
         if: always()
         with:
           allure-results: ../allure-results
