@@ -1,67 +1,91 @@
-name: Test
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - "main"
-
-permissions:
-  contents: write
+      - main
 
 jobs:
-  test:
-    name: Test
+  deploy:
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Download Chrome
-        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - name: Install Chrome
-        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
-#      - name: Fix missing dependencies
-#        run: sudo apt-get install -f
-
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
+      - name: Build static site
         run: |
-          pip install -r requirements.txt
+          echo "<html><body><h1>Hello, World!</h1></body></html>" > index.html
 
-      - name: Run tests
-        run: |
-          pytest --alluredir=allure-results
-
-#      - name: List Allure results
-#        run: ls -la allure-results
-
-      - name: Load Allure test report history
-        uses: actions/checkout@v2
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages-dir
-
-      - name: Generate Allure test report
-        uses: andgineer/allure-report@v3.4
-        id: allure-report
-        if: always()
-        with:
-          allure-results: allure-results
-          website: gh-pages-dir
-          reports-site-path: builds/tests
-
-      - name: Publish Allure test report
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
-        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ${{ steps.allure-report.outputs.reports-site }}
-          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
+          publish_dir: .
+#name: Test
+#
+#on:
+#  push:
+#    branches:
+#      - "main"
+#
+#permissions:
+#  contents: write
+#
+#jobs:
+#  test:
+#    name: Test
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Download Chrome
+#        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#      - name: Install Chrome
+#        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
+#      - name: Fix missing dependencies
+#        run: sudo apt-get install -f
+#
+#      - name: Set up Python 3.x
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: '3.x'
+#
+#      - name: Install dependencies
+#        run: |
+#          pip install -r requirements.txt
+#
+#      - name: Run tests
+#        run: |
+#          pytest --alluredir=allure-results
+#
+#      - name: List Allure results
+#        run: ls -la allure-results
+#
+#      - name: Load Allure test report history
+#        uses: actions/checkout@v2
+#        if: always()
+#        continue-on-error: true
+#        with:
+#          ref: gh-pages
+#          path: gh-pages-dir
+#
+#      - name: Generate Allure test report
+#        uses: andgineer/allure-report@v3.4
+#        id: allure-report
+#        if: always()
+#        with:
+#          allure-results: allure-results
+#          website: gh-pages-dir
+#          reports-site-path: builds/tests
+#
+#      - name: Publish Allure test report
+#        uses: peaceiris/actions-gh-pages@v3
+#        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_branch: gh-pages
+#          publish_dir: ${{ steps.allure-report.outputs.reports-site }}
+#          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
