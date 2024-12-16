@@ -1,9 +1,10 @@
 import allure
 from selene import browser, by
+from selenium import webdriver
 
 
-def test_decorator_steps():
-    open_main_page('https://github.com')
+def test_decorator_steps(open_browser):
+    open_main_page('/')
     search_for_repository("eroshenkoam/allure-example")
     go_to_repository("eroshenkoam/allure-example")
     open_issue_tab()

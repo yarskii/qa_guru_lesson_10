@@ -8,7 +8,7 @@ from selene import browser, by, be
 @allure.label("owner", "Yaroslav Gusev")
 @allure.description("Тест для проверки поиска необходимой информации")
 @allure.link("https://github.com", name="Testing")
-def test_labels_steps():
+def test_labels_steps(open_browser):
     @allure.step("Открываем главную страницу {url}")
     def open_main_page(url):
         browser.open(url)
@@ -32,7 +32,7 @@ def test_labels_steps():
     def should_see_issue_with_name(name):
         browser.element(by.partial_text(name)).should(be.visible)
 
-    open_main_page('https://github.com')
+    open_main_page('/')
     search_for_repository("eroshenkoam/allure-example")
     go_to_repository("eroshenkoam/allure-example")
     open_issue_tab()
