@@ -21,8 +21,8 @@ jobs:
         run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       - name: Install Chrome
         run: sudo dpkg -i google-chrome-stable_current_amd64.deb
-      - name: Fix missing dependencies
-        run: sudo apt-get install -f
+#      - name: Fix missing dependencies
+#        run: sudo apt-get install -f
 
       - name: Set up Python 3.x
         uses: actions/setup-python@v2
@@ -37,8 +37,8 @@ jobs:
         run: |
           pytest --alluredir=allure-results
 
-      - name: List Allure results
-        run: ls -la allure-results
+#      - name: List Allure results
+#        run: ls -la allure-results
 
       - name: Load Allure test report history
         uses: actions/checkout@v2
