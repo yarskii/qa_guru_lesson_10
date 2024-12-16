@@ -37,6 +37,9 @@ jobs:
         run: |
           pytest --alluredir=allure-results
 
+      - name: List Allure results
+        run: ls -la allure-results
+
       - name: Load Allure test report history
         uses: actions/checkout@v2
         if: always()
