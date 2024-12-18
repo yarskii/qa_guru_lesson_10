@@ -28,44 +28,44 @@ jobs:
         with:
           python-version: '3.x'
 #
-#      - name: Install dependencies
-#        run: |
-#          pip install -r requirements.txt
-#
-#      - name: Run tests
-#        run: |
-#          pytest --alluredir=allure-results
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pytest --alluredir=allure-results
 
 #      - name: List Allure results
 #        run: ls -la allure-results
 #
-#      - name: Load Allure test report history
-#        uses: actions/checkout@v3
-#        if: always()
-#        continue-on-error: true
-#        with:
-#          ref: gh-pages
-#          path: gh-pages-dir
+      - name: Load Allure test report history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages-dir
 #
-#      - name: Generate Allure test report
-#        uses: andgineer/allure-report@v3.4
-#        id: allure-report
-#        if: always()
-#        with:
-#          allure-results: allure-results
-#          website: gh-pages-dir
-#          reports-site-path: builds/tests
+      - name: Generate Allure test report
+        uses: andgineer/allure-report@v3.4
+        id: allure-report
+        if: always()
+        with:
+          allure-results: allure-results
+          website: gh-pages-dir
+          reports-site-path: builds/tests
 #
 ##      - name: Move Allure report to root
 ##        run: |
 ##          mkdir -p gh-pages-dir
 ##          mv gh-pages-dir/builds/tests/* gh-pages-dir/
 #
-#      - name: Publish Allure test report
-#        uses: peaceiris/actions-gh-pages@v3.9.0
-#        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          publish_branch: gh-pages
-#          publish_dir: ${{ steps.allure-report.outputs.reports-site }}
-#          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
+      - name: Publish Allure test report
+        uses: peaceiris/actions-gh-pages@v3.9.0
+        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ${{ steps.allure-report.outputs.reports-site }}
+          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
