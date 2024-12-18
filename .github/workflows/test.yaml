@@ -16,12 +16,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 #
-#      - name: Download Chrome
-#        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#      - name: Install Chrome
-#        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
-#      - name: Fix missing dependencies
-#        run: sudo apt-get install -f
+      - name: Download Chrome
+        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      - name: Install Chrome
+        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
+      - name: Fix missing dependencies
+        run: sudo apt-get install -f
 #
       - name: Set up Python 3.x
         uses: actions/setup-python@v4
