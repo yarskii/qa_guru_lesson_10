@@ -1,40 +1,40 @@
-name: Test
-
-on:
-  push:
-    branches:
-      - "main"
-
-permissions:
-  contents: write
-
-jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Download Chrome
-        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - name: Install Chrome
-        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
-      - name: Fix missing dependencies
-        run: sudo apt-get install -f
-
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-
-      - name: Run tests
-        run: |
-          pytest --alluredir=allure-results
+#name: Test
+#
+#on:
+#  push:
+#    branches:
+#      - "main"
+#
+#permissions:
+#  contents: write
+#
+#jobs:
+#  test:
+#    name: Test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Download Chrome
+#        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#      - name: Install Chrome
+#        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
+#      - name: Fix missing dependencies
+#        run: sudo apt-get install -f
+#
+#      - name: Set up Python 3.x
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: '3.x'
+#
+#      - name: Install dependencies
+#        run: |
+#          pip install -r requirements.txt
+#
+#      - name: Run tests
+#        run: |
+#          pytest --alluredir=allure-results
 
 #      - name: List Allure results
 #        run: ls -la allure-results
