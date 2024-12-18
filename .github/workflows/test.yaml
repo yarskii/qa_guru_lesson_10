@@ -23,10 +23,10 @@ jobs:
 #      - name: Fix missing dependencies
 #        run: sudo apt-get install -f
 #
-#      - name: Set up Python 3.x
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: '3.x'
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 #
 #      - name: Install dependencies
 #        run: |
