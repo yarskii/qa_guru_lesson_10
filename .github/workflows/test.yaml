@@ -54,7 +54,7 @@ jobs:
         with:
           allure-results: allure-results
           website: gh-pages-dir
-          reports-site-path: builds/tests
+#          reports-site-path: builds/tests
 
       - name: Move Allure report to root
         run: |
