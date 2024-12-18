@@ -58,6 +58,7 @@ jobs:
 
       - name: Move Allure report to root
         run: |
+          mkdir -p gh-pages-dir
           mv gh-pages-dir/builds/tests/* gh-pages-dir/
 
       - name: Publish Allure test report
