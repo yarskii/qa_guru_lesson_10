@@ -49,7 +49,7 @@ jobs:
           path: gh-pages-dir
 
       - name: Generate Allure test report
-        uses: andgineer/allure-report@v3.5
+        uses: andgineer/allure-report@v3.4
         id: allure-report
         if: always()
         with:
