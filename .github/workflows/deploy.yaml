@@ -35,22 +35,40 @@ jobs:
         continue-on-error: true
         with:
           ref: gh-pages
-          path: gh-pages-dir
+          path: gh-pages
+#          path: gh-pages-dir
 
-      - name: Generate Allure test report
-        uses: andgineer/allure-report@v3.4
-        id: allure-report
+#      - name: Generate Allure test report
+#        uses: andgineer/allure-report@v3.4
+#        id: allure-report
+#        if: always()
+#        with:
+#          allure-results: allure-results
+#          website: gh-pages-dir
+#          reports-site-path: builds/tests
+#
+#      - name: Publish Allure test report
+#        uses: peaceiris/actions-gh-pages@v3.9.0
+#        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_branch: gh-pages
+#          publish_dir: ${{ steps.allure-report.outputs.reports-site }}
+#          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
+
+
+      - name: Allure Report action from marketplace
+        uses: simple-elf/allure-report-action@master
         if: always()
         with:
-          allure-results: allure-results
-          website: gh-pages-dir
-          reports-site-path: builds/tests
+          allure_results: allure-results
+          allure_history: allure-history
+          keep_reports: 20
 
-      - name: Publish Allure test report
-        uses: peaceiris/actions-gh-pages@v3.9.0
-        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ${{ steps.allure-report.outputs.reports-site-path }}
-          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
