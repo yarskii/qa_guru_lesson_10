@@ -1,6 +1,5 @@
 import allure
 from selene import browser, by
-from selenium import webdriver
 
 
 def test_decorator_steps(open_browser):
