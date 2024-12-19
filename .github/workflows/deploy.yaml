@@ -26,12 +26,13 @@ jobs:
 
       - uses: nanasess/setup-chromedriver@v2
         with:
+           chromedriver-version: '88.0.4324.96'
            chromeapp: chrome
 
       - name: Start Xvfb
         run: |
           sudo Xvfb :99 -screen 0 1280x1024x24 &
-          echo "DISPLAY=:99" >> $GITHUB_ENV
+          export DISPLAY=:99
 
       - name: Set up Python 3.x
         uses: actions/setup-python@v4
