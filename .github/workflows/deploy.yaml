@@ -35,7 +35,7 @@ jobs:
 
       - name: Set up ChromeDriver
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oE '[0-9]+.[0-9]+.[0-9]+.[0-9]+')
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d. -f1-3)
           CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION) || echo "Latest version not found")
           
           if [[ "$CHROMEDRIVER_VERSION" == "Latest version not found" ]]; then
