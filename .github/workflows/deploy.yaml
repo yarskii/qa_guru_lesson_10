@@ -39,7 +39,7 @@ jobs:
 #          path: gh-pages-dir
 
       - name: Generate Allure test report
-        uses: simple-elf/allure-report-action@v3.4
+        uses: simple-elf/allure-report-action@master
         id: allure-report
         if: always()
         with:
