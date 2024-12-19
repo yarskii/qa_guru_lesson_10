@@ -89,20 +89,32 @@ jobs:
 
 
 #
-      - name: Generate Allure test report
-        uses: andgineer/allure-report@v3.4
-        id: allure-report
-        if: always()
-        with:
-          allure-results: allure-results
-          website: gh-pages-dir
-          reports-site-path: builds/tests
+#      - name: Generate Allure test report
+#        uses: andgineer/allure-report@v3.4
+#        id: allure-report
+#        if: always()
+#        with:
+#          allure-results: allure-results
+#          website: gh-pages-dir
+#          reports-site-path: builds/tests
 #
-      - name: Publish Allure test report
-        uses: peaceiris/actions-gh-pages@v3.9.0
-        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
+#      - name: Publish Allure test report
+#        uses: peaceiris/actions-gh-pages@v3.9.0
+#        if: ${{ always() && (steps.allure-report.outcome == 'success') }}
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_branch: gh-pages
+#          publish_dir: ${{ steps.allure-report.outputs.reports-site }}
+#          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
+
+      - name: Generate Allure report
+        id: allure-report
+        run: |
+          allure generate -o allure-report ./allure-results
+
+      - name: Deploy report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ${{ steps.allure-report.outputs.reports-site }}
-          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
+          publish_dir: ./allure-report
