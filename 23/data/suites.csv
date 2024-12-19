@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","1528","test_decorator_steps","tests","Thu Dec 19 12:48:10 GMT 2024","broken","Thu Dec 19 12:48:12 GMT 2024","","test_decorator_steps","",""
+"","189","test_dynamic_steps","tests","Thu Dec 19 12:48:12 GMT 2024","broken","Thu Dec 19 12:48:12 GMT 2024","","test_steps","",""
+"","187","test_github","tests","Thu Dec 19 12:48:12 GMT 2024","broken","Thu Dec 19 12:48:12 GMT 2024","","test_selene","",""
+"Тест для проверки поиска необходимой информации","189","test_labels_steps","tests","Thu Dec 19 12:48:12 GMT 2024","broken","Thu Dec 19 12:48:12 GMT 2024","","test_labels","",""
