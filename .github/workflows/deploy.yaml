@@ -54,7 +54,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ${{ steps.allure-report.outputs.reports-site-path }}
-          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
+#          destination_dir: ${{ steps.allure-report.outputs.reports-site-path }}
 
 #      - name: Allure Report action from marketplace
 #        uses: simple-elf/allure-report-action@master
