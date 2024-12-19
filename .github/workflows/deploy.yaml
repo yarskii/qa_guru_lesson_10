@@ -45,17 +45,6 @@ jobs:
           allure_history: allure-history
           keep_reports: 20
 
-      - name: Clean gh-pages branch
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git checkout --orphan temp-branch
-          git rm -rf .
-          git commit --allow-empty -m "Clean gh-pages branch"
-          git branch -D gh-pages
-          git branch -m gh-pages
-          git push origin gh-pages --force
-
       - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
