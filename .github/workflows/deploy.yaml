@@ -86,6 +86,11 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages-dir
+
+      - name: Generate Allure report
+        id: allure-report
+        run: |
+          allure generate -o allure-report ./allure-results
 #
 #      - name: Generate Allure test report
 #        uses: andgineer/allure-report@v3.4
