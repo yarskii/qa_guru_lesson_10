@@ -87,19 +87,16 @@ jobs:
           ref: gh-pages
           path: gh-pages-dir
 
-      - name: Generate Allure report
-        id: allure-report
-        run: |
-          allure generate -o allure-report ./allure-results
+
 #
-#      - name: Generate Allure test report
-#        uses: andgineer/allure-report@v3.4
-#        id: allure-report
-#        if: always()
-#        with:
-#          allure-results: allure-results
-#          website: gh-pages-dir
-#          reports-site-path: builds/tests
+      - name: Generate Allure test report
+        uses: andgineer/allure-report@v3.4
+        id: allure-report
+        if: always()
+        with:
+          allure-results: allure-results
+          website: gh-pages-dir
+          reports-site-path: builds/tests
 #
 #      - name: Publish Allure test report
 #        uses: peaceiris/actions-gh-pages@v3.9.0
