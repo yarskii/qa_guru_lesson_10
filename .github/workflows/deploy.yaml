@@ -36,7 +36,7 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
-  #          path: gh-pages-dir
+          path: gh-pages-dir
 
       - name: Generate Allure test report
         uses: andgineer/allure-report@v3.4
