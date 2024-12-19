@@ -1,47 +1,4 @@
-name: Test and Deploy Allure Report
-
-on:
-  push:
-    branches:
-      - "main"
-
-permissions:
-  contents: write
-
-jobs:
-  test:
-    name: Test and Deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-
-      - name: Run tests
-        run: |
-          pytest --alluredir=allure-results
-
-      - name: Generate Allure report
-        id: allure-report
-        run: |
-          allure generate -o allure-report ./allure-results
-
-      - name: Deploy report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./allure-report
-
-#name: Test
+#name: Test and Deploy Allure Report
 #
 #on:
 #  push:
@@ -53,18 +10,11 @@ jobs:
 #
 #jobs:
 #  test:
-#    name: Test
+#    name: Test and Deploy
 #    runs-on: ubuntu-latest
 #    steps:
 #      - name: Checkout code
 #        uses: actions/checkout@v3
-#
-#      - name: Download Chrome
-#        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#      - name: Install Chrome
-#        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
-#      - name: Fix missing dependencies
-#        run: sudo apt-get install -f
 #
 #      - name: Set up Python 3.x
 #        uses: actions/setup-python@v4
@@ -79,13 +29,63 @@ jobs:
 #        run: |
 #          pytest --alluredir=allure-results
 #
-#      - name: Load Allure test report history
-#        uses: actions/checkout@v3
-#        if: always()
-#        continue-on-error: true
+#      - name: Generate Allure report
+#        id: allure-report
+#        run: |
+#          allure generate -o allure-report ./allure-results
+#
+#      - name: Deploy report to GitHub Pages
+#        uses: peaceiris/actions-gh-pages@v3
 #        with:
-#          ref: gh-pages
-#          path: gh-pages-dir
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_branch: gh-pages
+#          publish_dir: ./allure-report
+
+name: Test
+
+on:
+  push:
+    branches:
+      - "main"
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+#
+#      - name: Download Chrome
+#        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#      - name: Install Chrome
+#        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
+#      - name: Fix missing dependencies
+#        run: sudo apt-get install -f
+#
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pytest --alluredir=allure-results
+#
+      - name: Load Allure test report history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages-dir
 #
 #      - name: Generate Allure test report
 #        uses: andgineer/allure-report@v3.4
