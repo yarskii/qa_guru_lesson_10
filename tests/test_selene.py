@@ -5,13 +5,13 @@ from selene.support.shared.jquery_style import s
 def test_github(open_browser):
     browser.open('/')
 
-    s(".header-search-button").click()
+    s(".header-search-button").should(be.visible).click()
 
-    s("#query-builder-test").send_keys("eroshenkoam/allure-example")
-    s("#query-builder-test").submit()
+    s("#query-builder-test").should(be.visible).send_keys("eroshenkoam/allure-example")
+    s("#query-builder-test").should(be.visible).submit()
 
-    s(by.link_text("eroshenkoam/allure-example")).click()
+    s(by.link_text("eroshenkoam/allure-example")).should(be.visible).click()
 
-    s("#issues-tab").click()
+    s("#issues-tab").should(be.visible).click()
 
     s(by.partial_text("#95")).should(be.visible)
